@@ -697,7 +697,7 @@ jobs:
 
       - name: Create Pull Request
         if: steps.update.outputs.changed == 'true'
-        uses: ./.forgejo/actions/create-pull-request
+        uses: https://git.cisnt.uk/actions/create-pull-request@v1
         with:
           token: ${{ secrets.PACKAGE_TOKEN }}
           branch-name: update-image-versions
