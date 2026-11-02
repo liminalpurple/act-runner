@@ -201,19 +201,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver: remote
-          endpoint: tcp://buildkit:8125
-
-      - name: Log in to Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.PACKAGE_TOKEN }}
-
       - name: Generate Ubuntu tags
         id: ubuntu-tags
         uses: ./.forgejo/actions/generate-image-tags
@@ -237,11 +224,12 @@ jobs:
           branch-name: ${{ github.ref_name }}
 
       - name: Build and push Ubuntu image
-        uses: docker/build-push-action@v6
+        uses: https://git.cisnt.uk/actions/docker-publish@v1
         with:
+          registry: ${{ env.REGISTRY }}
+          password: ${{ secrets.PACKAGE_TOKEN }}
           context: ./docker
           file: ./docker/ubuntu.Dockerfile
-          push: true
           tags: ${{ steps.ubuntu-tags.outputs.tags }}
           build-args: |
             UBUNTU_TAG=${{ matrix.variant == 'previous' && needs.prepare.outputs.ubuntu-previous-tag || matrix.variant == 'latest' && needs.prepare.outputs.ubuntu-latest-tag || matrix.variant == 'rolling' && needs.prepare.outputs.ubuntu-rolling-tag }}
@@ -286,21 +274,6 @@ jobs:
             echo "⏭️  No newer-than-native deadsnakes Python for ubuntu-${{ matrix.variant }} — skipping overlay"
           fi
 
-      - name: Set up Docker
-        if: steps.check.outputs.needed == 'true'
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver: remote
-          endpoint: tcp://buildkit:8125
-
-      - name: Log in to Registry
-        if: steps.check.outputs.needed == 'true'
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.PACKAGE_TOKEN }}
-
       - name: Generate Ubuntu Python tags
         if: steps.check.outputs.needed == 'true'
         id: ubuntu-python-tags
@@ -320,11 +293,12 @@ jobs:
 
       - name: Build and push Ubuntu Python image
         if: steps.check.outputs.needed == 'true'
-        uses: docker/build-push-action@v6
+        uses: https://git.cisnt.uk/actions/docker-publish@v1
         with:
+          registry: ${{ env.REGISTRY }}
+          password: ${{ secrets.PACKAGE_TOKEN }}
           context: .
           file: ./docker/ubuntuPython.Dockerfile
-          push: true
           tags: ${{ steps.ubuntu-python-tags.outputs.tags }}
           build-args: |
             BASE_IMAGE=${{ matrix.variant == 'previous' && needs.prepare.outputs.ubuntu-python-previous-base || needs.prepare.outputs.ubuntu-python-latest-base }}
@@ -350,19 +324,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver: remote
-          endpoint: tcp://buildkit:8125
-
-      - name: Log in to Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.PACKAGE_TOKEN }}
-
       - name: Generate Fedora tags
         id: fedora-tags
         uses: ./.forgejo/actions/generate-image-tags
@@ -386,11 +347,12 @@ jobs:
           branch-name: ${{ github.ref_name }}
 
       - name: Build and push Fedora image
-        uses: docker/build-push-action@v6
+        uses: https://git.cisnt.uk/actions/docker-publish@v1
         with:
+          registry: ${{ env.REGISTRY }}
+          password: ${{ secrets.PACKAGE_TOKEN }}
           context: ./docker
           file: ./docker/fedora.Dockerfile
-          push: true
           tags: ${{ steps.fedora-tags.outputs.tags }}
           build-args: |
             FEDORA_TAG=${{ matrix.variant == 'previous' && needs.prepare.outputs.fedora-previous-tag || matrix.variant == 'latest' && needs.prepare.outputs.fedora-latest-tag || matrix.variant == 'rawhide' && needs.prepare.outputs.fedora-rawhide-tag }}
@@ -418,19 +380,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver: remote
-          endpoint: tcp://buildkit:8125
-
-      - name: Log in to Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.PACKAGE_TOKEN }}
-
       - name: Generate Debian tags
         id: debian-tags
         uses: ./.forgejo/actions/generate-image-tags
@@ -454,11 +403,12 @@ jobs:
           branch-name: ${{ github.ref_name }}
 
       - name: Build and push Debian image
-        uses: docker/build-push-action@v6
+        uses: https://git.cisnt.uk/actions/docker-publish@v1
         with:
+          registry: ${{ env.REGISTRY }}
+          password: ${{ secrets.PACKAGE_TOKEN }}
           context: ./docker
           file: ./docker/debian.Dockerfile
-          push: true
           tags: ${{ steps.debian-tags.outputs.tags }}
           build-args: |
             DEBIAN_TAG=${{ matrix.variant == 'oldstable' && needs.prepare.outputs.debian-oldstable-tag || matrix.variant == 'stable' && needs.prepare.outputs.debian-stable-tag || matrix.variant == 'sid' && needs.prepare.outputs.debian-sid-tag }}
