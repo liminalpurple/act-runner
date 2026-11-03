@@ -50,8 +50,8 @@ versions use the latest stable Python (3.15) from deadsnakes PPA.
 | Fedora Version | Alias Tag | Node.js | Python Versions Available |
 | --- | --- | --- | --- |
 | Rawhide (Development) | **[`fedora-rawhide`](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedora-rawhide)** | 26 | [**3.15**](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedorarawhide-node26-py3.15) |
-| 44 (Current) | **[`fedora-latest`](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedora-latest)** | 26 | [**3.14**](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedora44-node26-py3.14) |
-| 43 (Previous) | **[`fedora-previous`](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedora-previous)** | 24 | [**3.14**](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedora43-node24-py3.14) |
+| 45 (Current) | **[`fedora-latest`](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedora-latest)** | 26 | [**3.15**](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedora45-node26-py3.15) |
+| 44 (Previous) | **[`fedora-previous`](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedora-previous)** | 24 | [**3.14**](https://git.cisnt.uk/morgan/-/packages/container/act-runner/fedora44-node24-py3.14) |
 
 ## Debian images
 
