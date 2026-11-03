@@ -1,0 +1,7 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dockerfile": {
+    "description": "The images' base tags are floating on purpose (latest, stable, rawhide) and the build workflow detects the versions behind them each night, so Renovate leaves the Dockerfiles alone",
+    "enabled": false
+  }
+}
