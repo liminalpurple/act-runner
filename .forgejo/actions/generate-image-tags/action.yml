@@ -53,6 +53,9 @@ runs:
         PYTHON_VERSION="${{ inputs.python-version }}"
         VARIANT="${{ inputs.variant }}"
         BRANCH_NAME="${{ inputs.branch-name }}"
+        # Docker tags allow only letters, digits, "_", "." and "-", so a branch
+        # like renovate/all becomes renovate-all.
+        BRANCH_NAME=$(printf '%s' "$BRANCH_NAME" | tr -c 'A-Za-z0-9_.-' '-')
 
         echo "🏷️ Generating tags for ${OS_NAME}:${OS_VERSION} with Node.js ${NODE_VERSION} and Python ${PYTHON_VERSION}"
 

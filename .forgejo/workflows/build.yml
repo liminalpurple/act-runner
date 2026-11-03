@@ -179,7 +179,8 @@ jobs:
           # otherwise it silently resolves a stale image from a past main build, or (for a
           # newly-introduced version) nothing at all.
           SUFFIX=""
-          [ "${{ github.ref_name }}" != "main" ] && SUFFIX="-${{ github.ref_name }}"
+          # Sanitised the same way as generate-image-tags, e.g. renovate/all → renovate-all.
+          [ "${{ github.ref_name }}" != "main" ] && SUFFIX="-$(printf '%s' "${{ github.ref_name }}" | tr -c 'A-Za-z0-9_.-' '-')"
 
           echo "previous-base=git.cisnt.uk/morgan/act-runner:ubuntu${{ steps.ubuntu.outputs.previous-version }}-node${UBUNTU_PREV_NODE_TAG}-py${{ steps.ubuntu.outputs.previous-python }}${SUFFIX}" >> $GITHUB_OUTPUT
           echo "latest-base=git.cisnt.uk/morgan/act-runner:ubuntu${{ steps.ubuntu.outputs.latest-version }}-node${UBUNTU_LATEST_NODE_TAG}-py${{ steps.ubuntu.outputs.latest-python }}${SUFFIX}" >> $GITHUB_OUTPUT
